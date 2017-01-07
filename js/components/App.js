@@ -1,10 +1,20 @@
 import React from 'react';
 import Relay from 'react-relay';
+import { observable } from 'mobx'
+import { observer, inject } from 'mobx-react'
 
-class App extends React.Component {
+var timer = observable({ time: 0 })
+var TestComponent = observer((props) => {
+  console.log("PROPS", props) // prints `{}`
+  return (<div></div>)
+})
+
+
+var App = observer(class App extends React.Component {
   render() {
     return (
       <div>
+        <TestComponent />
         <h1>Widget list</h1>
         <ul>
           {this.props.viewer.widgets.edges.map(edge =>
@@ -14,7 +24,7 @@ class App extends React.Component {
       </div>
     );
   }
-}
+})
 
 export default Relay.createContainer(App, {
   fragments: {
